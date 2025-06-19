@@ -20,6 +20,8 @@ public class Estacionamento {
         this.vaga = vaga;
     }
 
+    // =============================================
+    // Getters e Setters
     public Long getId() {
         return id;
     }

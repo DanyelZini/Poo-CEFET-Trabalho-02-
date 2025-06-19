@@ -28,6 +28,13 @@ public class Cliente {
         }
         return null;
     }
+    public Cliente getCliente(Long id) {
+        for (Cliente c : clientes) {
+            if (c.getId().equals(id))
+                return c;
+        }
+        return null;
+    }
 
     // Update
     public Cliente putCliente(String cpf, String nome, List<Veiculo> veiculos) {
@@ -61,11 +68,13 @@ public class Cliente {
     // =============================================
     // Funcoes para validacao do CPF | Create como construtor
     public Cliente(String nome, String cpf) {
+        if (nome == null || cpf == null)
+            throw new IllegalArgumentException("Nome e CPF nao podem ser nulos");
         if (!isCpfValido(cpf)) {
-            throw new IllegalArgumentException("CPF inválido");
+            throw new IllegalArgumentException("CPF invalido");
         }
         if (existeCpf(cpf)) {
-            throw new IllegalArgumentException("Já existe um cliente com este CPF");
+            throw new IllegalArgumentException("Ja existe um cliente com este CPF");
         }
         this.id = nextId++;
         this.nome = nome;
