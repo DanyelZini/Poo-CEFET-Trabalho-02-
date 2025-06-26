@@ -22,6 +22,8 @@ public class Veiculo {
         
     }
     public Veiculo(String placa, String modelo, String cor, String marca, TipoVaga tipoVeiculo, Cliente cliente) {
+        placa = placa.toUpperCase();
+        System.out.println();
         if (placa == null || modelo == null || cor == null || marca == null || tipoVeiculo == null || cliente == null)
             throw new IllegalArgumentException("Nenhum dos campos pode ser nulo.");
         if (!isValidPlaca(placa)) 

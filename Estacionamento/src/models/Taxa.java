@@ -26,4 +26,12 @@ public class Taxa {
     public void setValorHora(Double valorHora) {
         this.valorHora = valorHora;
     }
+
+    @Override
+    public String toString() {
+        return "Taxa{" +
+                "tipoVeiculo=" + tipoVeiculo +
+                ", valorHora=" + valorHora +
+                '}';
+    }
 }

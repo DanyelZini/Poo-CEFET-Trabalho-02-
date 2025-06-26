@@ -76,10 +76,14 @@ public class Cliente {
         if (existeCpf(cpf)) {
             throw new IllegalArgumentException("Ja existe um cliente com este CPF");
         }
-        this.id = nextId++;
+        this.id = Cliente.nextId++;
         this.nome = nome;
         this.cpf = formatarCpf(cpf);
         clientes.add(this);
+    }
+
+    public Cliente(){
+
     }
 
     private String formatarCpf(String cpf) {
@@ -106,8 +110,12 @@ public class Cliente {
         if (n2 >= 10)
             n2 = 0;
 
-        if (n1 != (cpf.charAt(9) - '0') || n2 != (cpf.charAt(10) - '0'))
+        
+
+        if (n1 != (cpf.charAt(9) - '0') || n2 != (cpf.charAt(10) - '0')) {
+            System.out.println(n1 + " " + n2);
             return false;
+        }
 
         return true;
     }
@@ -166,7 +174,7 @@ public class Cliente {
         this.veiculos.add(veiculo);
     }
 
-    // toString
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Cliente {\n");
