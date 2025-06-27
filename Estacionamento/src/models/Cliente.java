@@ -14,10 +14,10 @@ public class Cliente {
     // =============================================
     // RUD | Read Update Delete
     // Read
-    public List<Cliente> getAllClientes() {
+    public static List<Cliente> getAllClientes() {
         return clientes;
     }
-    public Cliente getCliente(String cpf) {
+    public static Cliente getCliente(String cpf) {
         cpf = formatarCpf(cpf);
         if (!isCpfValido(cpf))
             return null;
@@ -28,7 +28,7 @@ public class Cliente {
         }
         return null;
     }
-    public Cliente getCliente(Long id) {
+    public static Cliente getCliente(Long id) {
         for (Cliente c : clientes) {
             if (c.getId().equals(id))
                 return c;
@@ -37,7 +37,7 @@ public class Cliente {
     }
 
     // Update
-    public Cliente putCliente(String cpf, String nome, List<Veiculo> veiculos) {
+    public static Cliente putCliente(String cpf, String nome, List<Veiculo> veiculos) {
         Cliente clienteExistente = getCliente(cpf);
         if (clienteExistente == null)
             return null;
@@ -48,15 +48,15 @@ public class Cliente {
     }
 
     // Delete
-    public Boolean removeClienteVeiculo(String cpf, Veiculo veiculos) {
+    public static Boolean removeClienteVeiculo(String cpf, Veiculo veiculo) {
         Cliente clienteExistente = getCliente(cpf);
         if (clienteExistente == null)
             return false;
         
-        clienteExistente.veiculos.remove(veiculos);
+        clienteExistente.veiculos.remove(veiculo);
         return true;
     }
-    public Boolean removeCliente(String cpf) {
+    public static Boolean removeCliente(String cpf) {
         Cliente clienteExistente = getCliente(cpf);
         if (clienteExistente == null)
             return false;
@@ -86,11 +86,11 @@ public class Cliente {
 
     }
 
-    private String formatarCpf(String cpf) {
+    private static String formatarCpf(String cpf) {
         return cpf.replaceAll("[\\.\\-]", "");
     }
 
-    private Boolean isCpfValido(String cpf) {
+    private static Boolean isCpfValido(String cpf) {
         cpf = formatarCpf(cpf);
 
         if (!cpf.matches("\\d{11}") || cpf.length() != 11)
@@ -110,18 +110,15 @@ public class Cliente {
         if (n2 >= 10)
             n2 = 0;
 
-        
-
         if (n1 != (cpf.charAt(9) - '0') || n2 != (cpf.charAt(10) - '0')) {
-            System.out.println(n1 + " " + n2);
             return false;
         }
 
         return true;
     }
 
-    private Boolean existeCpf(String cpf) {
-        return getCliente(cpf) == null ? false : true;
+    private static Boolean existeCpf(String cpf) {
+        return getCliente(cpf) != null;
     }
 
     // =============================================
@@ -142,10 +139,6 @@ public class Cliente {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -156,10 +149,6 @@ public class Cliente {
 
     public String getCpf() {
         return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public List<Veiculo> getVeiculos() {

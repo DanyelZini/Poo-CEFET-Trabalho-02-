@@ -3,6 +3,7 @@ import java.util.Scanner;
 import controller.Patio;
 import enums.TipoVaga;
 import models.Cliente;
+import models.Estacionamento;
 import models.Veiculo;
 
 public class App {    
@@ -44,6 +45,8 @@ public class App {
             System.out.println("4. Alterar Veículo");
             System.out.println("5. Listar Clientes");
             System.out.println("6. Listar Veículos");
+            System.out.println("7. Pesquisar Cliente");
+            System.out.println("8. Pesquisar Veículo");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -125,6 +128,26 @@ public class App {
                             System.out.println(v);
                         }
                         break;
+                    case 7:
+                        System.out.print("CPF do cliente para pesquisar: ");
+                        String cpfPesquisa = scanner.nextLine();
+                        Cliente clientePesq = new Cliente().getCliente(cpfPesquisa);
+                        if (clientePesq == null) {
+                            System.out.println("Cliente não encontrado!");
+                        } else {
+                            System.out.println("Cliente encontrado: " + clientePesq);
+                        }
+                        break;
+                    case 8:
+                        System.out.print("Placa do veículo para pesquisar: ");
+                        String placaPesquisa = scanner.nextLine();
+                        Veiculo veiculoPesq = new Veiculo().getVeiculo(placaPesquisa);
+                        if (veiculoPesq == null) {
+                            System.out.println("Veículo não encontrado!");
+                        } else {
+                            System.out.println("Veículo encontrado: " + veiculoPesq);
+                        }
+                        break;
                     case 0:
                         return;
                     default:
@@ -141,6 +164,11 @@ public class App {
             System.out.println("\n--- Menu Pátio ---");
             System.out.println("1. Listar Vagas");
             System.out.println("2. Alterar Taxa de Vaga");
+            System.out.println("3. Buscar Vaga por Número");
+            System.out.println("4. Alterar Estado da Vaga");
+            System.out.println("5. Entrada de Estacionamento");
+            System.out.println("6. Listar Estacionamentos");
+            System.out.println("7. Saída de Estacionamento");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -148,7 +176,7 @@ public class App {
             try {
                 switch (opcao) {
                     case 1:
-                        //p.printVeiculos();
+                        System.out.println(p.listarVagas());
                         break;
                     case 2:
                         System.out.print("Tipo de vaga (1-AUTOMOVEL, 2-MOTO, 3-UTILITARIO): ");
@@ -163,6 +191,59 @@ public class App {
                             System.out.println("Taxa alterada!");
                         } else {
                             System.out.println("Tipo de vaga não encontrado!");
+                        }
+                        break;
+                    case 3:
+                        System.out.print("Número da vaga para buscar: ");
+                        int numeroVaga = scanner.nextInt();
+                        scanner.nextLine();
+                        var vaga = Patio.buscarVagaPorNumero(numeroVaga);
+                        if (vaga != null) {
+                            System.out.println("Vaga encontrada: " + vaga);
+                        } else {
+                            System.out.println("Vaga não encontrada!");
+                        }
+                        break;
+                    case 4:
+                        System.out.print("Número da vaga para alterar estado: ");
+                        int numVaga = scanner.nextInt();
+                        scanner.nextLine();
+                        var vagaEstado = Patio.buscarVagaPorNumero(numVaga);
+                        if (vagaEstado == null) {
+                            System.out.println("Vaga não encontrada!");
+                            break;
+                        }
+                        System.out.println("Definir estado: 1 - Livre, 2 - Ocupado, 3 - Indisponível");
+                        System.out.print("Escolha o estado: ");
+                        int estado = scanner.nextInt();
+                        scanner.nextLine();
+                        vagaEstado.definirEstado(estado);
+                        System.out.println("Estado da vaga alterado!");
+                        break;
+                    case 5:
+                        System.out.print("Placa do veículo: ");
+                        String placaEntrada = scanner.nextLine();
+                        System.out.print("Número da vaga: ");
+                        int numeroVagaEntrada = scanner.nextInt();
+                        scanner.nextLine();
+                        try {
+                            Patio.adicionarEstacionamento(new Estacionamento(placaEntrada, numeroVagaEntrada));
+                        } catch (Exception e) {
+                            System.out.println("Erro ao registrar entrada: " + e.getMessage());
+                        }
+                        break;
+                    case 6:
+                        System.out.println("Estacionamentos registrados:");
+                        System.out.println(Patio.listarEstacionamentos());
+                        break;
+                    case 7:
+                        System.out.print("Placa do veículo para saída: ");
+                        String placaSaida = scanner.nextLine();
+                        try {
+                            double valor = Patio.saidaVeiculo(placaSaida);
+                            System.out.printf("Saída registrada! Valor a pagar: R$ %.2f\n", valor);
+                        } catch (Exception e) {
+                            System.out.println("Erro ao registrar saída: " + e.getMessage());
                         }
                         break;
                     case 0:

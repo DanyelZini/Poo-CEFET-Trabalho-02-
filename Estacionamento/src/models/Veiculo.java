@@ -39,7 +39,7 @@ public class Veiculo {
         this.cliente = cliente;
         veiculos.add(this);
     }
-    private Boolean isValidPlaca(String placa) {
+    private static Boolean isValidPlaca(String placa) {
         return placa.matches("[A-Z]{3}[0-9][A-Z][0-9]{2}") ? true : false;
     }
 
@@ -47,7 +47,7 @@ public class Veiculo {
     public List<Veiculo> getAllVeiculos() {
         return veiculos;
     }
-    public Veiculo getVeiculo(String placa) {
+    public static Veiculo getVeiculo(String placa) {
         if (!isValidPlaca(placa))
             return null;
         

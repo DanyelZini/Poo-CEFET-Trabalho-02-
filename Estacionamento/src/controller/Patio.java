@@ -14,8 +14,8 @@ import models.Veiculo;
 public class Patio {
     private static Patio instance;
     private List<Taxa> taxa;
-    private List<Vaga> vagas;
-    private List<Estacionamento> estacionamentos;
+    private static List<Vaga> vagas;
+    private static List<Estacionamento> estacionamentos;
     private Veiculo v;
     private Cliente c;
 
@@ -87,5 +87,62 @@ public class Patio {
         }
         return false;
     }
+
+    // Vagas    
+    public List<Vaga> listarVagas() {
+        return new ArrayList<>(vagas);
+    }
+
+    public static Vaga buscarVagaPorNumero(int numero) {
+        for (Vaga vaga : vagas) {
+            if (vaga.getNumero() == numero) {
+                return vaga;
+            }
+        }
+        return null;
+    }
+
+    public static boolean alterarEstadoVaga(int numeroVaga, int n) {
+        Vaga vaga = buscarVagaPorNumero(numeroVaga);
+        if (vaga != null) {
+            vaga.definirEstado(n);
+            return true;
+        }
+        return false;
+    }
+
+    // Estacionamento
+    public static Double saidaVeiculo(String placa) {
+        Estacionamento estacionamento = buscarEstacionamentoPorPlaca(placa);
+        if (estacionamento == null)
+            throw new IllegalArgumentException("Veiculo nao encontrado!!!");
+        if (estacionamento.getValor() != null)
+            throw new IllegalArgumentException("Saida ja realizada!!!");
+        return estacionamento.registrarSaida();
+    }
+
+    // Create
+    public static boolean adicionarEstacionamento(Estacionamento estacionamento) {
+        if (estacionamento != null) {
+            estacionamentos.add(estacionamento);
+            return true;
+        }
+        return false;
+    }
+
+    // Read
+    public static List<Estacionamento> listarEstacionamentos() {
+        return estacionamentos;
+    }
+    public static Estacionamento buscarEstacionamentoPorPlaca(String placa) {
+        for (int i = estacionamentos.size() - 1; i >= 0; i--) {
+            Estacionamento estacionamento = estacionamentos.get(i);
+            if (estacionamento.getVeiculo() != null && estacionamento.getVeiculo().getPlaca().equalsIgnoreCase(placa)) {
+                return estacionamento;
+            }
+        }
+        return null;
+    }
+
 
 }
